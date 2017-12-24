@@ -1,5 +1,6 @@
 #
 # Conditional build:
+%bcond_without	apidocs		# API documentation (doxygen based)
 %bcond_without	openmpt123	# openmpt123 CLI player
 %bcond_with	sdl		# SDL2 output in openmpt123
 %bcond_without	static_libs	# don't build static libraries
@@ -8,16 +9,15 @@
 Summary:	Tracker module player based on OpenMPT
 Summary(pl.UTF-8):	Odtwarzacz modułów ścieżkowych oparty na OpenMPT
 Name:		libopenmpt
-Version:	0.2.8461
+Version:	0.3.4
 Release:	1
 License:	BSD
 Group:		Libraries
-# "betaNN" is only information, not element of version number
-Source0:	https://lib.openmpt.org/files/libopenmpt/src/%{name}-%{version}-beta26-autotools.tar.gz
-# Source0-md5:	29ac490b6444be3f123d95650811b17d
+Source0:	https://lib.openmpt.org/files/libopenmpt/src/%{name}-%{version}+release.autotools.tar.gz
+# Source0-md5:	de8ec867feff4460a8c707ee3388df09
 URL:		https://lib.openmpt.org/
-BuildRequires:	doxygen
-BuildRequires:	libmpg123-devel
+%{?with_apidocs:BuildRequires:	doxygen}
+BuildRequires:	libmpg123-devel >= 1.13.0
 BuildRequires:	libstdc++-devel >= 6:4.3
 BuildRequires:	libogg-devel
 BuildRequires:	libvorbis-devel
@@ -31,6 +31,7 @@ BuildRequires:	portaudio-devel >= 19
 BuildRequires:	portaudio-c++-devel >= 19
 BuildRequires:	pulseaudio-devel
 %endif
+Requires:	libmpg123 >= 1.13.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -86,6 +87,7 @@ Summary:	Command line module music player based on libopenmpt
 Summary(pl.UTF-8):	Działający z linii poleceń odtwarzacz modułów muzycznych oparty na libopenmpt
 Group:		Applications/Sound
 Requires:	%{name} = %{version}-%{release}
+Requires:	flac >= 1.3.0
 
 %description -n openmpt123
 Command line module music player based on libopenmpt.
@@ -95,7 +97,7 @@ Działający z linii poleceń odtwarzacz modułów muzycznych oparty na
 libopenmpt.
 
 %prep
-%setup -q -n %{name}-%{version}-autotools
+%setup -q -n %{name}-%{version}+release.autotools
 
 %build
 %configure \
@@ -108,14 +110,20 @@ libopenmpt.
 %{__make} check
 %endif
 
+%if %{with apidocs}
+doxygen
+%endif
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%if %{with apidocs}
 install -d $RPM_BUILD_ROOT%{_examplesdir}
 %{__mv} $RPM_BUILD_ROOT%{_docdir}/%{name}/examples $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+%endif
 # packaged as %doc / examples
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
 # obsoleted by pkg-config
@@ -130,7 +138,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 # don't package README.md here, it contains only packager and libopenmpt developer information
-%doc LICENSE TODO
+%doc LICENSE
 %attr(755,root,root) %{_libdir}/libopenmpt.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libopenmpt.so.0
 
@@ -146,10 +154,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libopenmpt.a
 %endif
 
+%if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
 %doc doxygen-doc/html/*
 %{_examplesdir}/%{name}-%{version}
+%endif
 
 %if %{with openmpt123}
 %files -n openmpt123
