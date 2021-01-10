@@ -9,12 +9,12 @@
 Summary:	Tracker module player based on OpenMPT
 Summary(pl.UTF-8):	Odtwarzacz modułów ścieżkowych oparty na OpenMPT
 Name:		libopenmpt
-Version:	0.5.0
+Version:	0.5.4
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	https://lib.openmpt.org/files/libopenmpt/src/%{name}-%{version}+release.autotools.tar.gz
-# Source0-md5:	c06577e117fb2e02d0c27386532ef25b
+# Source0-md5:	87d632a0bab802f9937660440d26507e
 URL:		https://lib.openmpt.org/
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	libmpg123-devel >= 1.14.0
@@ -22,6 +22,7 @@ BuildRequires:	libstdc++-devel >= 6:7
 BuildRequires:	libogg-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	pkgconfig >= 1:0.24
+BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	zlib-devel
 %if %{with openmpt123}
 %{?with_sdl:BuildRequires:	SDL2-devel >= 2.0.4}
@@ -72,9 +73,7 @@ Statyczna biblioteka OpenMPT.
 Summary:	API documentation for OpenMPT library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki OpenMPT
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description apidocs
 API documentation and examples for OpenMPT library.
