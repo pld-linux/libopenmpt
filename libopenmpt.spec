@@ -73,7 +73,7 @@ Statyczna biblioteka OpenMPT.
 Summary:	API documentation for OpenMPT library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki OpenMPT
 Group:		Documentation
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description apidocs
 API documentation and examples for OpenMPT library.
