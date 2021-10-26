@@ -101,6 +101,7 @@ libopenmpt.
 
 %build
 %configure \
+	--disable-examples \
 	%{!?with_openmpt123:--disable-openmpt123} \
 	%{!?with_static_libs:--disable-static} \
 	%{?with_sdl:--with-sdl2}
