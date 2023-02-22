@@ -2,6 +2,7 @@
 # Conditional build:
 %bcond_without	apidocs		# API documentation (doxygen based)
 %bcond_without	openmpt123	# openmpt123 CLI player
+%bcond_without	portaudio	# PortAudio support
 %bcond_with	sdl		# SDL2 output in openmpt123
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	tests		# unit tests
@@ -29,8 +30,10 @@ BuildRequires:	zlib-devel
 %{?with_sdl:BuildRequires:	SDL2-devel >= 2.0.4}
 BuildRequires:	flac-devel >= 1.3.0
 BuildRequires:	libsndfile-devel
+%if %{with portaudio}
 BuildRequires:	portaudio-devel >= 19
 BuildRequires:	portaudio-c++-devel >= 19
+%endif
 BuildRequires:	pulseaudio-devel
 %endif
 Requires:	libmpg123 >= 1.14.0
@@ -104,6 +107,8 @@ libopenmpt.
 	--disable-examples \
 	%{!?with_openmpt123:--disable-openmpt123} \
 	%{!?with_static_libs:--disable-static} \
+	%{!?with_portaudio:--without-portaudio} \
+	%{!?with_portaudio:--without-portaudiocpp} \
 	%{?with_sdl:--with-sdl2}
 %{__make}
 
