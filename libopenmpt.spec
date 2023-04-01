@@ -4,18 +4,18 @@
 %bcond_without	openmpt123	# openmpt123 CLI player
 %bcond_without	portaudio	# PortAudio support
 %bcond_with	sdl		# SDL2 output in openmpt123
-%bcond_without	static_libs	# don't build static libraries
+%bcond_without	static_libs	# static library
 %bcond_without	tests		# unit tests
 #
 Summary:	Tracker module player based on OpenMPT
 Summary(pl.UTF-8):	Odtwarzacz modułów ścieżkowych oparty na OpenMPT
 Name:		libopenmpt
-Version:	0.6.2
-Release:	2
+Version:	0.6.9
+Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	https://lib.openmpt.org/files/libopenmpt/src/%{name}-%{version}+release.autotools.tar.gz
-# Source0-md5:	d21fb799695cbe10a1e9aeaea23ed708
+# Source0-md5:	cad469bef72baeefc43a651dbe9b225c
 URL:		https://lib.openmpt.org/
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	libmpg123-devel >= 1.14.0
