@@ -10,12 +10,12 @@
 Summary:	Tracker module player based on OpenMPT
 Summary(pl.UTF-8):	Odtwarzacz modułów ścieżkowych oparty na OpenMPT
 Name:		libopenmpt
-Version:	0.8.2
+Version:	0.8.3
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	https://lib.openmpt.org/files/libopenmpt/src/%{name}-%{version}+release.autotools.tar.gz
-# Source0-md5:	5800653edd7cbac2df10b85ca9b4943d
+# Source0-md5:	091f9b6c640edaebb1c85b222b47bc35
 URL:		https://lib.openmpt.org/
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	libmpg123-devel >= 1.14.0
@@ -147,11 +147,11 @@ rm -rf $RPM_BUILD_ROOT
 # don't package README.md here, it contains only packager and libopenmpt developer information
 %doc LICENSE
 %attr(755,root,root) %{_libdir}/libopenmpt.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libopenmpt.so.0
+%ghost %{_libdir}/libopenmpt.so.0
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libopenmpt.so
+%{_libdir}/libopenmpt.so
 %{_includedir}/libopenmpt
 %{_pkgconfigdir}/libopenmpt.pc
 
